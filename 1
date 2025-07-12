@@ -1,0 +1,66 @@
+import java.io.*;
+import java.nio.file.*;
+import java.util.*;
+
+public class FileOperations {
+
+    private static final String FILE_NAME = "sample.txt";
+
+    public static void main(String[] args) {
+        try {
+            // 1. Write initial content to the file
+            writeFile("Hello, world!\nThis is a Java file operation example.");
+
+            // 2. Read and display the file content
+            System.out.println("Original File Content:");
+            readFile();
+
+            // 3. Modify: append new line
+            modifyFile("This line was added later!");
+
+            // 4. Read and display modified file content
+            System.out.println("\nModified File Content:");
+            readFile();
+
+        } catch (IOException e) {
+            System.err.println("Error during file operations: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Writes text to a file (overwrites if exists).
+     * @param content the text to write
+     * @throws IOException if write fails
+     */
+    public static void writeFile(String content) throws IOException {
+        BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_NAME));
+        writer.write(content);
+        writer.close();
+    }
+
+    /**
+     * Reads content from the file and prints to console.
+     * @throws IOException if read fails
+     */
+    public static void readFile() throws IOException {
+        BufferedReader reader = new BufferedReader(new FileReader(FILE_NAME));
+        String line;
+        while ((line = reader.readLine()) != null) {
+            System.out.println(line);
+        }
+        reader.close();
+    }
+
+    /**
+     * Appends a new line to the existing file.
+     * @param newLine the line to append
+     * @throws IOException if append fails
+     */
+    public static void modifyFile(String newLine) throws IOException {
+        BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_NAME, true)); // 'true' to append
+        writer.newLine();
+        writer.write(newLine);
+        writer.close();
+    }
+}
+
